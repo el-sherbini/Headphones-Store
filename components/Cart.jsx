@@ -10,25 +10,37 @@ import {
 import { TiDeleteOutline } from "react-icons/ti";
 import toast from "react-hot-toast";
 
+import { useRouter } from "next/router";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 
 const Cart = () => {
   const cartRef = useRef();
+  const router = useRouter();
+
   const {
     totalPrice,
     totalQuantities,
     cartItems,
     setShowCart,
-    onRemove,
     toggleCartItemQuantity,
+    onRemove,
   } = useStateContext();
+
+  const handleCheckout = async () => {
+    setShowCart(false);
+    router.push("/success");
+  };
 
   return (
     <div className="cart-wrapper" ref={cartRef}>
       <div className="cart-container">
-        <button type="button" className="cart-heading">
-          <AiOutlineLeft onClick={() => setShowCart(false)} />
+        <button
+          type="button"
+          className="cart-heading"
+          onClick={() => setShowCart(false)}
+        >
+          <AiOutlineLeft />
           <span className="heading">Your Cart</span>
           <span className="cart-num-items">({totalQuantities} items)</span>
         </button>
@@ -56,7 +68,7 @@ const Cart = () => {
                 <img
                   src={urlFor(item?.image[0])}
                   className="cart-product-image"
-                  alt=""
+                  alt={item.name}
                 />
                 <div className="item-desc">
                   <div className="flex top">
@@ -87,15 +99,18 @@ const Cart = () => {
                         </span>
                       </p>
                     </div>
-                    <button type="button" className="remove-item">
-                      <TiDeleteOutline onClick={() => onRemove(item)} />
+                    <button
+                      type="button"
+                      className="remove-item"
+                      onClick={() => onRemove(item)}
+                    >
+                      <TiDeleteOutline />
                     </button>
                   </div>
                 </div>
               </div>
             ))}
         </div>
-
         {cartItems.length >= 1 && (
           <div className="cart-bottom">
             <div className="total">
@@ -103,8 +118,8 @@ const Cart = () => {
               <h3>${totalPrice}</h3>
             </div>
             <div className="btn-container">
-              <button type="button" className="btn">
-                Pay with Stripe
+              <button type="button" className="btn" onClick={handleCheckout}>
+                Pay
               </button>
             </div>
           </div>
