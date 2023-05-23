@@ -1,7 +1,6 @@
 # Headphones Store
 
 > Headphones Store is an e-commerce application to sell headphones, built with Next.js, ContextAPI, Sanity CMS.
->  Live demo [_here_](https://bre.is/7GAw8hDz).
 
 ## Installation and Setup Instructions
 
